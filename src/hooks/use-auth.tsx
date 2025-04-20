@@ -31,12 +31,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ['currentUser'],
     queryFn: () => getCurrentUser().then((res) => res.data),
     enabled: isAuth,
-    onError: () => {
-      // If getting the current user fails, assume not authenticated
-      setIsAuth(false);
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user');
-    },
+    // Remove onError and replace with proper error handling in meta
+    meta: {
+      onError: () => {
+        // If getting the current user fails, assume not authenticated
+        setIsAuth(false);
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user');
+      }
+    }
   });
 
   // Login mutation
